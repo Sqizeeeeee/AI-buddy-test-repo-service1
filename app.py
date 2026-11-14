@@ -12,7 +12,10 @@ def create_app(database: Path | None = None) -> Flask:
 
     @app.get("/")
     def index():
-        return render_template("index.html", notes=notes.list_all())
+        query = request.args.get("q", "").strip()
+        keyword = query.casefold()
+        matches = [note for note in notes.list_all() if keyword in note["title"].casefold()]
+        return render_template("index.html", notes=matches, query=query)
 
     @app.post("/notes")
     def create_note():

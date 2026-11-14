@@ -13,11 +13,17 @@
   </section>
   <section>
     <h2>Все заметки</h2>
+    <form method="get" action="{{ url_for('index') }}">
+      <label for="q">Поиск по заголовку</label>
+      <input id="q" name="q" type="search" value="{{ query | default('') }}">
+      <button type="submit">Найти</button>
+    </form>
+    {% if query %}<p><a href="{{ url_for('index') }}">Сбросить поиск</a></p>{% endif %}
     <ul>
       {% for note in notes %}
         <li><a href="{{ url_for('show_note', note_id=note.id) }}">{{ note.title }}</a></li>
       {% else %}
-        <li>Здесь появятся сохранённые заметки.</li>
+        <li>{% if query %}Заметки не найдены.{% else %}Здесь появятся сохранённые заметки.{% endif %}</li>
       {% endfor %}
     </ul>
   </section>
