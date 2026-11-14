@@ -13,6 +13,7 @@
   </section>
   <section>
     <h2>Все заметки</h2>
+    <p>Всего заметок: {{ notes | length }}</p>
     <ul>
       {% for note in notes %}
         <li><a href="{{ url_for('show_note', note_id=note.id) }}">{{ note.title }}</a></li>
