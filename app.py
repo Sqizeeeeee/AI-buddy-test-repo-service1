@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from flask import Flask, abort, redirect, render_template, request, url_for
@@ -22,7 +23,7 @@ def create_app(database: Path | None = None) -> Flask:
             return render_template(
                 "index.html", notes=notes.list_all(), title=title, body=body,
                 error="Введите заголовок до 100 символов и текст до 5000 символов.",
-            ), 400
+            ), 422
 
         note_id = notes.create(title, body)
         return redirect(url_for("show_note", note_id=note_id), code=303)
